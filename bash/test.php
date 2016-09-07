@@ -8,8 +8,8 @@ use dataManager\newsletter\NewsletterDataManager;
 for($i = 0; i < 100; $i++)
 {
     echo "Test ($i)";
-}
-
+} 
+ 
 //phpinfo();
 
 

@@ -6,9 +6,16 @@ use dataManager\newsletter\NewsletterDataManager;
 use exceptions\MailAddressAlreadyRegisteredException;
 use PHPUnit\Framework\TestCase;
 
+/**
+* The unit tests for the NewsletterDataManager class.
+*/
 class NewsletterDataManagerUnitTests extends TestCase
 {
 
+    /**
+    * Tests the constructor when a valid data adapter is given. 
+    * Should crate an instance of the object.
+    */
     function testConstructor_WhenDataAdapterGiven_CanCreateNewInstance()
     {
         // Arrange
@@ -19,6 +26,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
+     * Test the constructor when an invalid data adater instance is given. 
+     * Should throw an InvalidArgumentException. 
+     *
      * @expectedException InvalidArgumentException
      */
     function testConstructor_WhenInvalidInstanceGiven_ShouldThrowInvalidArgumentException()
@@ -31,6 +41,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
      /**
+     * Tests the constructor when a null argument is given. 
+     * Should throw an InvalidArgumentException. 
+     * 
      * @expectedException InvalidArgumentException
      */
     function testConstructor_WhenNullArgumentGiven_ShouldThrowInvalidArgumentException()
@@ -40,6 +53,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
+     * Tests the AddMailToNewsletter function when the name parameter is null. 
+     * Should throw an InvalidArgumentException. 
+     *
      * @expectedException InvalidArgumentException
      */
     function testAddMailToNewsletter_WhenNameIsNull_ShouldThrowInvalidArgumentException()
@@ -53,6 +69,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
+     * Tests the AddMailToNewsletter fucntion when the mail parameter is null. 
+     * Should throw an InvalidArgumentException. 
+     * 
      * @expectedException InvalidArgumentException
      */
     function testAddMailToNewsletter_WhenMailIsNull_ShouldThrowInvalidArgumentException()
@@ -65,7 +84,9 @@ class NewsletterDataManagerUnitTests extends TestCase
         $dataManager->addMailToNewsletter(null, "Name");
     }
 
-   
+    /**
+    * Provides a test dataset of invalid mail addresses.
+    */
     public function invalidMailProvider()
     {
         return [
@@ -77,6 +98,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
        
     /**
+     * Tests the AddMailToNewsletter function when an invalid mail address is given. 
+     * Should throw an InvalidMailAddressException. 
+     *
      * @expectedException \exceptions\InvalidMailAddressException
      * @dataProvider invalidMailProvider
      */
@@ -91,6 +115,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
+     * Tests the AddMailToNewsletter function when the mail is empty. 
+     * Should throw an InvalidArgumentException. 
+     *
      * @expectedException InvalidArgumentException
      */
     function testAddMailToNewsletter_WhenMailIsEmpty_ShouldThrowInvalidArgumentException()
@@ -103,7 +130,9 @@ class NewsletterDataManagerUnitTests extends TestCase
         $dataManager->addMailToNewsletter("Name", "");
     }
 
-
+    /**
+    * Provides a test dataset with invalid names.
+    */
     public function invalidNameProvider()
     {
         return [
@@ -115,6 +144,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
+     * Tests the AddMailToNewsletter function when a name with invalid characters is given. 
+     * Should throw a InvalidNameException. 
+     * 
      * @expectedException \exceptions\InvalidNameException
      * @dataProvider invalidNameProvider
      */
@@ -129,6 +161,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
+     * Tests the AddMailToNewsletter function when an empty name is given. 
+     * Should throw an InvalidArgumentException. 
+     *
      * @expectedException InvalidArgumentException
      */
     function testAddMailToNewsletter_WhenNameIsEmpty_ShouldThrowInvalidArgumentException()
@@ -141,6 +176,10 @@ class NewsletterDataManagerUnitTests extends TestCase
         $dataManager->addMailToNewsletter('', "mail@google.de");
     }
 
+    /**
+    * Tests the AddMailToNewsletter function when a valid name and mail address given. 
+    * Should call the insert function of the data adapter.
+    */
     function testAddMailToNewsletter_WhenNameAndMailValid_ShouldCallDataAdapterInsert()
     {
 
@@ -156,6 +195,9 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
+     * Tests the AddMailToNewsletter function when valid data given but the data adapter insert function throws a MailAddressAlreadyRegisteredException. 
+     * Should throw a MailAddressAlreadyRegisteredException. 
+     *
      * @expectedException \exceptions\MailAddressAlreadyRegisteredException
      */
     function testAddMailToNewsletter_WhenDataAdapterThrowsMailAddressAlreadyRegisteredException_ShouldRethrowException()
