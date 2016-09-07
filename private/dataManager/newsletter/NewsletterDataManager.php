@@ -1,9 +1,19 @@
 <?php namespace dataManager\newsletter;
 
-require_once("INewsletterDataManager.php");
+require_once(__DIR__.'/INewsletterDataManager.php');
+require_once(__DIR__.'/../../dataAdapter/newsletter/INewsletterDataAdapter.php');
+require_once(__DIR__.'/../../exceptions/InvalidMailAddressException.php');
+require_once(__DIR__.'/../../exceptions/InvalidNameException.php');
+require_once(__DIR__.'/../../exceptions/MailAddressAlreadyRegisteredException.php');
+
+use exceptions\InvalidMailAddressException;
+use exceptions\InvalidNameException;
+use exceptions\MailAddressAlreadyRegisteredException;
 
 class NewsletterDataManager implements INewsletterDataManager
 {
+    private $newsletterDataAdapter = null;
+
     public function __construct($newsletterDataAdapter)
     {
         if($newsletterDataAdapter == null)
@@ -15,12 +25,41 @@ class NewsletterDataManager implements INewsletterDataManager
         {
             throw new \InvalidArgumentException("The newsletterDataAdapter must be a class implementing the INewsletterDataAdapter interface.");
         }
+
+        $this->newsletterDataAdapter = $newsletterDataAdapter;
     }
 
 
     public function addMailToNewsletter($name, $mail)
     {
-        throw new \Exception("Not implemented!");
+        if($name == null)
+        {
+            throw new \InvalidArgumentException("The parameter name can not be null.");
+        }
+
+        if($mail == null)
+        {
+            throw new \InvalidArgumentException("The parameter mail can not be null.");
+        }
+
+        if(!filter_var($name, \FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[a-zA-Z\s]*$/"))))
+        {
+            throw new InvalidNameException("The name ($name) has invalid characters. Only A-z and whitespaces are allowed");
+        }
+
+        if(!filter_var($mail, \FILTER_VALIDATE_EMAIL))
+        {
+            throw new InvalidMailAddressException("The mail address ($mail) has an invalid format.");
+        }
+
+        try
+        {
+            $this->newsletterDataAdapter->insertMailAddress($name, $mail);
+        }
+        catch(MailAddressAlreadyRegisteredException $e)
+        {
+            throw $e;
+        }
     }
 }
 
