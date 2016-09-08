@@ -12,6 +12,7 @@
             "type": "php",
             "request": "launch",
             "program": "${file}",
+            "externalConsole": false,
             "cwd": "${fileDirname}",
             "port": 9000
         }
