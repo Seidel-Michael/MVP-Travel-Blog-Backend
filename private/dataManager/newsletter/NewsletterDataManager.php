@@ -27,6 +27,8 @@ class NewsletterDataManager implements INewsletterDataManager
     * Creates a new instance of the NewsletterDataManager class. 
     * 
     * @param newsletterDataAdapter The NewsletterDataAdapter instance to use. 
+	*
+	* @throws InvalidArgumentException Is thrown if the newsletterDataAdapter is null or the wrong type. 
     */
 	public function __construct($newsletterDataAdapter)
 	{
@@ -71,7 +73,7 @@ class NewsletterDataManager implements INewsletterDataManager
 			throw new \InvalidArgumentException("The parameter mail can not be null.");
 		}
 		
-		if(!filter_var($name, \FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[a-zA-Z\s]*$/"))))
+		if(!filter_var($name, \FILTER_VALIDATE_REGEXP,array("options"=>array("regexp"=>"/^[a-zA-ZöäüÖÄÜ\s]*$/"))))
 		{
 			throw new InvalidNameException("The name ($name) has invalid characters. Only A-z and whitespaces are allowed");
 		}

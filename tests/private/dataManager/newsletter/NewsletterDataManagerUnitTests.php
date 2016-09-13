@@ -65,7 +65,53 @@ class NewsletterDataManagerUnitTests extends TestCase
         $dataManager = new NewsletterDataManager($dataAdapter);
 
         // Act 
-        $dataManager->addMailToNewsletter("mail@google.de", null);
+        $dataManager->addMailToNewsletter(null, "mail@google.de");
+    }
+
+    /**
+     * Tests the AddMailToNewsletter function when the name parameter is longer than 254. 
+     * Should throw an InvalidNameException. 
+     *
+     * @expectedException \exceptions\InvalidNameException
+     */
+    function testAddMailToNewsletter_WhenNameIsTooLong_ShouldThrowInvalidNameException()
+    {
+        // Arrange
+        $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
+        $dataManager = new NewsletterDataManager($dataAdapter);
+
+        $test = 'A';
+        for($i = 0; $i < 254; $i++)
+        {
+            $test = $test . 'A';
+        }
+        // Act 
+        $dataManager->addMailToNewsletter($test, "mail@google.de");
+    }
+
+    /**
+     * Tests the AddMailToNewsletter function when the mail parameter is longer than 254. 
+     * Should throw an InvalidMailAddressException. 
+     *
+     * @expectedException \exceptions\InvalidMailAddressException
+     */
+    function testAddMailToNewsletter_WhenMailIsTooLong_ShouldThrowInvalidMailAddressException()
+    {
+        // Arrange
+        $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
+        $dataManager = new NewsletterDataManager($dataAdapter);
+
+        $test = 'A';
+        for($i = 0; $i < 242; $i++)
+        {
+            $test = $test . 'A';
+        }
+        $test = $test . '@google.de';
+
+       // throw new \Exception($test);
+
+        // Act 
+        $dataManager->addMailToNewsletter("Name", $test);
     }
 
     /**
@@ -81,7 +127,7 @@ class NewsletterDataManagerUnitTests extends TestCase
         $dataManager = new NewsletterDataManager($dataAdapter);
 
         // Act 
-        $dataManager->addMailToNewsletter(null, "Name");
+        $dataManager->addMailToNewsletter("Name", null);
     }
 
     /**
@@ -192,6 +238,24 @@ class NewsletterDataManagerUnitTests extends TestCase
 
         // Act 
         $dataManager->addMailToNewsletter("Name", "mail@google.de");
+    }
+
+    /**
+    * Tests the AddMailToNewsletter function when a valid name with umlauts and mail address given. 
+    * Should call the insert function of the data adapter.
+    */
+    function testAddMailToNewsletter_WhenNameWithUmlautsAndMailValid_ShouldCallDataAdapterInsert()
+    {
+
+         // Arrange
+        $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
+        $dataManager = new NewsletterDataManager($dataAdapter);
+
+        // Assert
+        $dataAdapter->expects($this->once())->method('insertMailAddress')->with("ÖÄÜöäüName", "mail@google.de");
+
+        // Act 
+        $dataManager->addMailToNewsletter("ÖÄÜöäüName", "mail@google.de");
     }
 
     /**

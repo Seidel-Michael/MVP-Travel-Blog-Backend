@@ -13,6 +13,9 @@ interface INewsletterDataAdapter
     *
     * @param string $mail
     *  The mail address.    
+    *
+    * @throws DatabaseException Is thrown if something with the database went wrong.
+    * @throws MailAddressAlreadyRegisteredException Is thrown if the given mail address is already registered.   
     */
     public function insertMailAddress($name, $mail);
 }

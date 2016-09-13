@@ -22,6 +22,14 @@
      verbose="false"
     >
 
+     <php>
+        <var name="DB_DSN" value="mysql:dbname=mvptravelblog;host=localhost" />
+        <var name="DB_USER" value="root" />
+        <var name="DB_PASSWD" value="" />
+        <var name="DB_DBNAME" value="mvptravelblog" />
+    </php>
+
+
     <testsuites>
         <testsuite name="AllTests">
         <directory>.</directory>
