@@ -10,10 +10,10 @@ abstract class Generic_Tests_DatabaseTestCase extends \PHPUnit_Extensions_Databa
     /**
     * The PDO instance.
     */
-    static private $pdo = null;
+    private static $pdo = null;
 
     /**
-    * The connection instance. 
+    * The connection instance.
     */
     private $conn = null;
 
@@ -24,7 +24,7 @@ abstract class Generic_Tests_DatabaseTestCase extends \PHPUnit_Extensions_Databa
     {
         if ($this->conn === null) {
             if (self::$pdo == null) {
-                self::$pdo = new \PDO( $GLOBALS['DB_DSN'], $GLOBALS['DB_USER'], $GLOBALS['DB_PASSWD'] );
+                self::$pdo = new \PDO($GLOBALS['DB_DSN'], $GLOBALS['DB_USER'], $GLOBALS['DB_PASSWD']);
             }
             $this->conn = $this->createDefaultDBConnection(self::$pdo, $GLOBALS['DB_DBNAME']);
         }
@@ -32,4 +32,3 @@ abstract class Generic_Tests_DatabaseTestCase extends \PHPUnit_Extensions_Databa
         return $this->conn;
     }
 }
-?>

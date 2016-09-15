@@ -13,10 +13,10 @@ class NewsletterDataManagerUnitTests extends TestCase
 {
 
     /**
-    * Tests the constructor when a valid data adapter is given. 
+    * Tests the constructor when a valid data adapter is given.
     * Should crate an instance of the object.
     */
-    function testConstructor_WhenDataAdapterGiven_CanCreateNewInstance()
+    public function testConstructor_WhenDataAdapterGiven_CanCreateNewInstance()
     {
         // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
@@ -26,12 +26,12 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
-     * Test the constructor when an invalid data adater instance is given. 
-     * Should throw an InvalidArgumentException. 
+     * Test the constructor when an invalid data adater instance is given.
+     * Should throw an InvalidArgumentException.
      *
      * @expectedException InvalidArgumentException
      */
-    function testConstructor_WhenInvalidInstanceGiven_ShouldThrowInvalidArgumentException()
+    public function testConstructor_WhenInvalidInstanceGiven_ShouldThrowInvalidArgumentException()
     {
         // Arrange
         $dataAdapter = $this->getMockBuilder('\dataManager\newsletter\INewsletterDataManager')->getMock();
@@ -41,92 +41,90 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
      /**
-     * Tests the constructor when a null argument is given. 
-     * Should throw an InvalidArgumentException. 
-     * 
+     * Tests the constructor when a null argument is given.
+     * Should throw an InvalidArgumentException.
+     *
      * @expectedException InvalidArgumentException
      */
-    function testConstructor_WhenNullArgumentGiven_ShouldThrowInvalidArgumentException()
+    public function testConstructor_WhenNullArgumentGiven_ShouldThrowInvalidArgumentException()
     {
         // Act
         $dataManager = new NewsletterDataManager(null);
     }
 
     /**
-     * Tests the AddMailToNewsletter function when the name parameter is null. 
-     * Should throw an InvalidArgumentException. 
+     * Tests the AddMailToNewsletter function when the name parameter is null.
+     * Should throw an InvalidArgumentException.
      *
      * @expectedException InvalidArgumentException
      */
-    function testAddMailToNewsletter_WhenNameIsNull_ShouldThrowInvalidArgumentException()
+    public function testAddMailToNewsletter_WhenNameIsNull_ShouldThrowInvalidArgumentException()
     {
         // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
         $dataManager = new NewsletterDataManager($dataAdapter);
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter(null, "mail@google.de");
     }
 
     /**
-     * Tests the AddMailToNewsletter function when the name parameter is longer than 254. 
-     * Should throw an InvalidNameException. 
+     * Tests the AddMailToNewsletter function when the name parameter is longer than 254.
+     * Should throw an InvalidNameException.
      *
      * @expectedException \exceptions\InvalidNameException
      */
-    function testAddMailToNewsletter_WhenNameIsTooLong_ShouldThrowInvalidNameException()
+    public function testAddMailToNewsletter_WhenNameIsTooLong_ShouldThrowInvalidNameException()
     {
         // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
         $dataManager = new NewsletterDataManager($dataAdapter);
 
         $test = 'A';
-        for($i = 0; $i < 254; $i++)
-        {
+        for ($i = 0; $i < 254; $i++) {
             $test = $test . 'A';
         }
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter($test, "mail@google.de");
     }
 
     /**
-     * Tests the AddMailToNewsletter function when the mail parameter is longer than 254. 
-     * Should throw an InvalidMailAddressException. 
+     * Tests the AddMailToNewsletter function when the mail parameter is longer than 254.
+     * Should throw an InvalidMailAddressException.
      *
      * @expectedException \exceptions\InvalidMailAddressException
      */
-    function testAddMailToNewsletter_WhenMailIsTooLong_ShouldThrowInvalidMailAddressException()
+    public function testAddMailToNewsletter_WhenMailIsTooLong_ShouldThrowInvalidMailAddressException()
     {
         // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
         $dataManager = new NewsletterDataManager($dataAdapter);
 
         $test = 'A';
-        for($i = 0; $i < 242; $i++)
-        {
+        for ($i = 0; $i < 242; $i++) {
             $test = $test . 'A';
         }
         $test = $test . '@google.de';
 
        // throw new \Exception($test);
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter("Name", $test);
     }
 
     /**
-     * Tests the AddMailToNewsletter fucntion when the mail parameter is null. 
-     * Should throw an InvalidArgumentException. 
-     * 
+     * Tests the AddMailToNewsletter fucntion when the mail parameter is null.
+     * Should throw an InvalidArgumentException.
+     *
      * @expectedException InvalidArgumentException
      */
-    function testAddMailToNewsletter_WhenMailIsNull_ShouldThrowInvalidArgumentException()
+    public function testAddMailToNewsletter_WhenMailIsNull_ShouldThrowInvalidArgumentException()
     {
         // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
         $dataManager = new NewsletterDataManager($dataAdapter);
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter("Name", null);
     }
 
@@ -144,35 +142,35 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
        
     /**
-     * Tests the AddMailToNewsletter function when an invalid mail address is given. 
-     * Should throw an InvalidMailAddressException. 
+     * Tests the AddMailToNewsletter function when an invalid mail address is given.
+     * Should throw an InvalidMailAddressException.
      *
      * @expectedException \exceptions\InvalidMailAddressException
      * @dataProvider invalidMailProvider
      */
-    function testAddMailToNewsletter_WhenMailHasInvalidFormat_ShouldThrowInvalidMailAddressException($mail)
+    public function testAddMailToNewsletter_WhenMailHasInvalidFormat_ShouldThrowInvalidMailAddressException($mail)
     {
         // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
         $dataManager = new NewsletterDataManager($dataAdapter);
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter("Name", $mail);
     }
 
     /**
-     * Tests the AddMailToNewsletter function when the mail is empty. 
-     * Should throw an InvalidArgumentException. 
+     * Tests the AddMailToNewsletter function when the mail is empty.
+     * Should throw an InvalidArgumentException.
      *
      * @expectedException InvalidArgumentException
      */
-    function testAddMailToNewsletter_WhenMailIsEmpty_ShouldThrowInvalidArgumentException()
+    public function testAddMailToNewsletter_WhenMailIsEmpty_ShouldThrowInvalidArgumentException()
     {
         // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
         $dataManager = new NewsletterDataManager($dataAdapter);
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter("Name", "");
     }
 
@@ -190,43 +188,43 @@ class NewsletterDataManagerUnitTests extends TestCase
     }
 
     /**
-     * Tests the AddMailToNewsletter function when a name with invalid characters is given. 
-     * Should throw a InvalidNameException. 
-     * 
+     * Tests the AddMailToNewsletter function when a name with invalid characters is given.
+     * Should throw a InvalidNameException.
+     *
      * @expectedException \exceptions\InvalidNameException
      * @dataProvider invalidNameProvider
      */
-    function testAddMailToNewsletter_WhenNameContainsInvalidCharacters_ShouldThrowInvalidNameException($name)
+    public function testAddMailToNewsletter_WhenNameContainsInvalidCharacters_ShouldThrowInvalidNameException($name)
     {
-         // Arrange
+        // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
         $dataManager = new NewsletterDataManager($dataAdapter);
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter($name, "mail@google.de");
     }
 
     /**
-     * Tests the AddMailToNewsletter function when an empty name is given. 
-     * Should throw an InvalidArgumentException. 
+     * Tests the AddMailToNewsletter function when an empty name is given.
+     * Should throw an InvalidArgumentException.
      *
      * @expectedException InvalidArgumentException
      */
-    function testAddMailToNewsletter_WhenNameIsEmpty_ShouldThrowInvalidArgumentException()
+    public function testAddMailToNewsletter_WhenNameIsEmpty_ShouldThrowInvalidArgumentException()
     {
-         // Arrange
+        // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
         $dataManager = new NewsletterDataManager($dataAdapter);
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter('', "mail@google.de");
     }
 
     /**
-    * Tests the AddMailToNewsletter function when a valid name and mail address given. 
+    * Tests the AddMailToNewsletter function when a valid name and mail address given.
     * Should call the insert function of the data adapter.
     */
-    function testAddMailToNewsletter_WhenNameAndMailValid_ShouldCallDataAdapterInsert()
+    public function testAddMailToNewsletter_WhenNameAndMailValid_ShouldCallDataAdapterInsert()
     {
 
          // Arrange
@@ -236,15 +234,15 @@ class NewsletterDataManagerUnitTests extends TestCase
         // Assert
         $dataAdapter->expects($this->once())->method('insertMailAddress')->with("Name", "mail@google.de");
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter("Name", "mail@google.de");
     }
 
     /**
-    * Tests the AddMailToNewsletter function when a valid name with umlauts and mail address given. 
+    * Tests the AddMailToNewsletter function when a valid name with umlauts and mail address given.
     * Should call the insert function of the data adapter.
     */
-    function testAddMailToNewsletter_WhenNameWithUmlautsAndMailValid_ShouldCallDataAdapterInsert()
+    public function testAddMailToNewsletter_WhenNameWithUmlautsAndMailValid_ShouldCallDataAdapterInsert()
     {
 
          // Arrange
@@ -254,17 +252,17 @@ class NewsletterDataManagerUnitTests extends TestCase
         // Assert
         $dataAdapter->expects($this->once())->method('insertMailAddress')->with("ÖÄÜöäüName", "mail@google.de");
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter("ÖÄÜöäüName", "mail@google.de");
     }
 
     /**
-     * Tests the AddMailToNewsletter function when valid data given but the data adapter insert function throws a MailAddressAlreadyRegisteredException. 
-     * Should throw a MailAddressAlreadyRegisteredException. 
+     * Tests the AddMailToNewsletter function when valid data given but the data adapter insert function throws a MailAddressAlreadyRegisteredException.
+     * Should throw a MailAddressAlreadyRegisteredException.
      *
      * @expectedException \exceptions\MailAddressAlreadyRegisteredException
      */
-    function testAddMailToNewsletter_WhenDataAdapterThrowsMailAddressAlreadyRegisteredException_ShouldRethrowException()
+    public function testAddMailToNewsletter_WhenDataAdapterThrowsMailAddressAlreadyRegisteredException_ShouldRethrowException()
     {
         // Arrange
         $dataAdapter = $this->createMock('\dataAdapter\newsletter\INewsletterDataAdapter');
@@ -272,9 +270,7 @@ class NewsletterDataManagerUnitTests extends TestCase
         $dataAdapter->method('insertMailAddress')->will($this->throwException(new MailAddressAlreadyRegisteredException));
 
 
-        // Act 
+        // Act
         $dataManager->addMailToNewsletter("Name", "mail@google.de");
     }
 }
-
-?>

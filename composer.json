@@ -1,4 +1,18 @@
 {
+    "name": "seidel-michael/mvp-travel-blog-backend",
+    "description": "MVP Travel Blog Backend",
+    "license": "MIT",
+    "version": "1.0.0.0",
+    "authors": [
+        {
+            "name": "Michael Seidel",
+            "email": "info@seidel-michael.de",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"There4": "lib/"}
+    },
     "require": {
         "slim/slim": "^3.5"
     }

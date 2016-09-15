@@ -9,13 +9,13 @@ use exceptions\MailAddressAlreadyRegisteredException;
 use exceptions\DatabaseException;
 
 /**
-* The tests for the MySQLNewsletterDataAdapter class. 
+* The tests for the MySQLNewsletterDataAdapter class.
 */
 class MySQLNewsletterDataAdapterUnitTests extends Generic_Tests_DatabaseTestCase
 {
    
     /**
-     * Creates the intial database testing state. 
+     * Creates the intial database testing state.
      *
      * @return PHPUnit_Extensions_Database_DataSet_IDataSet
      */
@@ -43,7 +43,7 @@ class MySQLNewsletterDataAdapterUnitTests extends Generic_Tests_DatabaseTestCase
     }
 
     /**
-    * Tests the InsertMailAddress method when the name already exists in the database should insert the correct data anyway. 
+    * Tests the InsertMailAddress method when the name already exists in the database should insert the correct data anyway.
     */
     public function testInsertMailAddress_WhenNameAlreadyExists_ShouldInsertCorrectData()
     {
@@ -75,25 +75,31 @@ class MySQLNewsletterDataAdapterUnitTests extends Generic_Tests_DatabaseTestCase
     }
 
     /**
-     * Tests the constructor when the database is not reachable should throw DatabaseException. 
+     * Tests the InsertMailAddress method when the database is not reachable should throw DatabaseException.
      *
      * @expectedException \exceptions\DatabaseException
      */
-    public function testConstructor_WhenDatabaseNotReachable_ShouldThrowDatabaseException()
+    public function testInsertMailAddress_WhenDatabaseNotReachable_ShouldThrowDatabaseException()
     {
-        // Act
+        // Arrange
         $dataAdapter = new MySQLNewsletterDataAdapter("mysql:dbname=mvptravelblog;host=google.de", $GLOBALS['DB_USER'], $GLOBALS['DB_PASSWD']);
+    
+        // Act
+        $dataAdapter->insertMailAddress("Michael", "info@john.de");
     }
 
     /**
-     * Tests the constructor when the database login is invalid should throw a DatabaseException. 
+     * Tests the InsertMailAddress method when the database login is invalid should throw a DatabaseException.
      *
      * @expectedException \exceptions\DatabaseException
      */
-    public function testConstructor_WhenDatabaseLoginWrong_ShouldThrowDatabaseException()
+    public function testInsertMailAddress_WhenDatabaseLoginWrong_ShouldThrowDatabaseException()
     {
-        // Act
+        // Arrange
         $dataAdapter = new MySQLNewsletterDataAdapter($GLOBALS['DB_DSN'], $GLOBALS['DB_USER'], "wrong");
+    
+        // Act
+        $dataAdapter->insertMailAddress("Michael", "info@john.de");
     }
 
 
@@ -129,8 +135,4 @@ class MySQLNewsletterDataAdapterUnitTests extends Generic_Tests_DatabaseTestCase
         // Act
         $dataAdapter = new MySQLNewsletterDataAdapter($GLOBALS['DB_DSN'], $GLOBALS['DB_USER'], null);
     }
-
 }
-
-
-?>
