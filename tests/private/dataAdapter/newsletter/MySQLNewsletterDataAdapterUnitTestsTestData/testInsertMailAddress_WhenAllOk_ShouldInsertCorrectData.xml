@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<dataset>
+    <newsletteraddressee idNewsletterAddressee="1" addresseeName="John" addresseeMailAddress="info@john.de" created="2010-04-24 17:15:23" />
+    <newsletteraddressee idNewsletterAddressee="2" addresseeName="Michael" addresseeMailAddress="michael@test.de" created="NOW" />
+</dataset>
